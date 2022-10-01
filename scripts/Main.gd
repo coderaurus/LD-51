@@ -1,0 +1,74 @@
+extends Node2D
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = "text"
+var level_started = false
+var level_completed = false
+var level = 0
+var current_level : Node2D
+
+export var level_list := []
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	_load_level()
+	$UI/Timer.text = "%.4f" % 10.0
+	
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	if !get_tree().paused:
+		$UI/Timer.text = "%.4f" % $Countdown.time_left
+
+
+func time_up():
+	$Countdown.start(clamp($Countdown.time_left + 1.0, 0, 10.0))
+
+
+func pause_flow(pause = true):
+	if get_tree().paused != pause:
+		print("Pausing flow %s" % pause)
+	if !pause and !level_started:
+		_start_level()
+	
+	get_tree().paused = pause
+
+func _start_level():
+	level_started = true
+	$Countdown.start()
+
+func level_complete():
+	level_completed = true
+#	get_tree().reload_current_scene()
+	
+	level += 1
+	_load_level()
+
+func _load_level():
+	get_tree().paused = true
+	if level > 0:
+		remove_child(current_level)
+		var last_level = current_level
+		current_level = null
+		last_level.call_deferred("queue_free")
+	
+	var next_level = (level_list[level] as PackedScene).instance()
+	add_child_below_node($Countdown, next_level)
+	current_level = next_level
+	
+	$Player.global_position = current_level.get_node("Objects/PlayerSpawn").global_position
+	$Player.reset()
+	$Countdown.stop()
+	level_started = false
+
+func game_over():
+	print("GAME OVER")
+	get_tree().reload_current_scene()
+
+
+func _on_Countdown_timeout():
+	print("Countdown timeout at %s" % $Countdown.time_left)
