@@ -24,7 +24,7 @@ func _on_body_entered(body):
 		_start_fall()
 
 func _on_body_exited(body):
-	if body == player:
+	if body.is_in_group("player"):
 		player = null
 
 
@@ -33,15 +33,12 @@ func _start_fall():
 	var tween = create_tween().set_loops(6)
 	tween.tween_property(self, "global_position", origin + Vector2.RIGHT * 2, 0.1)
 	tween.tween_property(self, "global_position", origin + Vector2.LEFT * 2, 0.1)
-	
-	yield(tween, "finished")
-	set_collision_layer_bit(1 , false)
-	_fall()
+	tween.tween_callback(self, "_fall")
 	
 func _fall():
-	if player != null:
-		player._jumping = true
-	
+#	if player != null:
+#		player._jumping = true
+#
 	var origin = global_position
 	var tween = create_tween()
 	tween.tween_property(self, "global_position", origin + Vector2.DOWN * 320, 2.0).set_trans(Tween.TRANS_EXPO)

@@ -45,30 +45,38 @@ func level_complete():
 	level_completed = true
 #	get_tree().reload_current_scene()
 	
-	level += 1
-	_load_level()
+	if level+1 < level_list.size():
+		level += 1
+		_load_level()
+	else:
+		print("Game done!")
 
 func _load_level():
 	get_tree().paused = true
+	level_started = false
+	level_completed = false
+	
 	if level > 0:
-		remove_child(current_level)
+		call_deferred("remove_child", current_level)
 		var last_level = current_level
 		current_level = null
 		last_level.call_deferred("queue_free")
 	
 	var next_level = (level_list[level] as PackedScene).instance()
-	add_child_below_node($Countdown, next_level)
+	
+	call_deferred("add_child_below_node", $Countdown, next_level)
 	current_level = next_level
 	
-	$Player.global_position = current_level.get_node("Objects/PlayerSpawn").global_position
+	$Player.position = current_level.get_node("Objects/PlayerSpawn").position
 	$Player.reset()
+	$Countdown.start(10.0)
 	$Countdown.stop()
-	level_started = false
 
 func game_over():
 	print("GAME OVER")
-	get_tree().reload_current_scene()
+	_load_level()
 
 
 func _on_Countdown_timeout():
+	_load_level()
 	print("Countdown timeout at %s" % $Countdown.time_left)

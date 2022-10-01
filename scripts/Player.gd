@@ -4,8 +4,8 @@ extends KinematicBody2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-export var _move_speed = 190
-export var _jump_force = 280
+export var _move_speed = 180
+export var _jump_force = 260
 export var _gravity = 800
 
 export (float, 0, 1.0) var friction = 0.25
@@ -31,8 +31,9 @@ func _physics_process(delta):
 	_velocity.y = clamp(_velocity.y + _gravity * delta, -400, 400)
 	_velocity = move_and_slide(_velocity, Vector2.UP)
 	
-	if abs(_velocity.y) > 1000: 
-		print("Pos %s | last %s " % [position, last_pos])
+	# For debugging kinematic + kinematic collision between player and falling block
+#	if abs(_velocity.y) > 1000: 
+#		print("Pos %s | last %s " % [position, last_pos])
 	
 	if get_slide_count() == 0:
 #			print("Not paused (velo y %s | pos %s)" % [_velocity.y, global_position])
@@ -43,11 +44,12 @@ func _physics_process(delta):
 			_jumping = false
 		
 		if $Coyote.is_stopped():
-			print("Starting")
+#			print("Starting")
 			$Coyote.start()
 	elif is_on_floor():
 		if !_grounded:
-			print("Landed")
+			$Coyote.stop()
+#			print("Landed")
 		_grounded = true
 		_can_jump = true
 		_velocity.y = 0
@@ -65,9 +67,11 @@ func get_input():
 	_direction.x = 0
 	if Input.is_action_pressed("move_left"):
 		_direction.x -= _move_speed
+		$Sprite.flip_h = true
 	if Input.is_action_pressed("move_right"):
 		_direction.x += _move_speed
-	if Input.is_action_just_pressed("jump"):
+		$Sprite.flip_h = false
+	if Input.is_action_just_pressed("jump") and _can_jump:
 		_jumping = true
 	
 	if _direction.x != 0:
