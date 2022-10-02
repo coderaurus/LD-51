@@ -138,7 +138,9 @@ margin_left = 26.0
 margin_top = 19.0
 margin_right = 104.0
 margin_bottom = 39.0
+focus_mode = 0
 theme = ExtResource( 9 )
+enabled_focus_mode = 0
 text = "Play Game"
 
 [node name="Sound" type="Control" parent="UI/Menu/Contents"]
@@ -164,7 +166,9 @@ margin_left = -45.0
 margin_top = -21.0
 margin_right = 6.0
 margin_bottom = -1.0
+focus_mode = 0
 theme = ExtResource( 9 )
+enabled_focus_mode = 0
 text = "Sound"
 
 [node name="Music" type="Control" parent="UI/Menu/Contents"]
@@ -190,7 +194,9 @@ margin_left = -45.0
 margin_top = -21.0
 margin_right = 6.0
 margin_bottom = -1.0
+focus_mode = 0
 theme = ExtResource( 9 )
+enabled_focus_mode = 0
 text = "Music"
 
 [node name="ParticleTogle" type="Button" parent="UI/Menu/Contents"]
@@ -198,6 +204,8 @@ margin_left = 327.0
 margin_top = 21.0
 margin_right = 406.0
 margin_bottom = 41.0
+focus_mode = 0
+enabled_focus_mode = 0
 text = "Particles"
 
 [node name="Restart" type="Button" parent="UI/Menu/Contents"]
@@ -205,6 +213,8 @@ margin_left = 26.0
 margin_top = 42.0
 margin_right = 104.0
 margin_bottom = 62.0
+focus_mode = 0
+enabled_focus_mode = 0
 text = "[R]estart"
 
 [node name="TransitionFade" type="TextureRect" parent="UI"]
@@ -242,6 +252,8 @@ margin_left = 226.0
 margin_top = 268.0
 margin_right = 387.0
 margin_bottom = 288.0
+focus_mode = 0
+enabled_focus_mode = 0
 text = "Save the world again?"
 
 [node name="Text" type="Control" parent="UI/Victory"]

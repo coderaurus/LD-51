@@ -18,8 +18,9 @@ export var level_list := []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	level = 0
+	print("Ready...")
 	_load_level()
-	level = 4
+#	level = 4
 	$UI/Timer.text = "%.4f" % 10.0
 	
 	pass # Replace with function body.
@@ -31,6 +32,7 @@ func _process(delta):
 		$UI/Timer.text = "%.4f" % $Countdown.time_left
 		
 	if !_game_complete and Input.is_action_just_pressed("restart"):
+		print("Restart pressed")
 		_load_level()
 
 
@@ -70,7 +72,7 @@ func _load_level():
 	var win_fade = level_completed
 	$UI.show_transition(win_fade)
 	yield(get_tree().create_timer(0.5), "timeout")
-	$Player.global_position = Vector2.LEFT * -500
+	
 	
 	level_started = false
 	level_completed = false
@@ -81,6 +83,7 @@ func _load_level():
 		last_level.visible = false
 		current_level = null
 		last_level.call_deferred("queue_free")
+		$Player.global_position = Vector2.LEFT * 500
 	else:
 		current_level = next_level
 
@@ -118,18 +121,19 @@ func _game_completed():
 	
 
 func game_over():
-#	print("GAME OVER")
+	print("GAME OVER")
 	SoundManager.sound("death")
 	_load_level()
 
 
 func _on_Countdown_timeout():
 	print("Countdown timeout at %s" % $Countdown.time_left)
-	if $Countdown.time_left == 0:
+	if $Countdown.time_left == 0 and !level_completed or !_game_complete:
 		game_over()
 
 
 func restart_game():
+	$UI/Victory/Restart.focus_mode =Control.FOCUS_NONE
 	get_tree().paused = true
 	
 	level_completed = false

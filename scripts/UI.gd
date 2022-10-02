@@ -81,6 +81,8 @@ func show_transition(win = false):
 		tween.tween_property($VictoryFade, "modulate", Color.white, 0.4)
 
 func hide_transition(win = false):
+	
+	print("Hide transition win = %s" % win)
 	var tween = create_tween()
 	if !win:
 		tween.tween_property($TransitionFade, "modulate", Color.transparent, 0.8)
@@ -112,6 +114,7 @@ func _on_start_pressed():
 
 
 func restart():
+	print("Restart tweeen")
 	var tween = create_tween().set_parallel()
 	tween.tween_property($VictoryFade, "modulate", Color.transparent, 0)
 	tween.tween_property($VictoryFade, "visible", false, 0)

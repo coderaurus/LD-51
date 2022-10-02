@@ -13,5 +13,5 @@ func _on_body_entered(body):
 	
 	if game_state_ok and is_player:
 		print("Goal %s reached!" % self)
-		monitoring = false
 		get_tree().current_scene.level_complete()
+		queue_free()
