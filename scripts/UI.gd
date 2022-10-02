@@ -111,6 +111,7 @@ func show_victory():
 
 func _on_start_pressed():
 	hide_menu()
+	SoundManager.sound("click")
 
 
 func restart():
@@ -152,7 +153,14 @@ func _on_music_changed(value):
 
 func _on_music_toggle_pressed():
 	_toggle_music()
+	SoundManager.sound("click")
 
 
 func _on_sound_toggle_pressed():
 	_toggle_sound()
+	SoundManager.sound("click")
+
+
+func _on_Restart_level_pressed():
+	get_parent()._load_level()
+	SoundManager.sound("click")

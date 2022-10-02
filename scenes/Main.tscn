@@ -19,7 +19,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1.42273 ), 0.0, 0.0, 0, 0
 
 [sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.0614525, 0.541899, 0.994413, 1 )
-colors = PoolColorArray( 0.0278957, 0.00181928, 0.0145543, 0.939357, 0.0451891, 0.00294712, 0.0235769, 0.901763, 0.180392, 0.0117647, 0.0941176, 0.607843, 0.683891, 0.589362, 0.460609, 0.19656, 0.713726, 0.623529, 0.482353, 0 )
+colors = PoolColorArray( 0.0278957, 0.00181928, 0.0145543, 0.939357, 0.0451891, 0.00294712, 0.0235769, 0.901763, 0.00782776, 0.0351563, 0.022346, 0.607843, 0.683891, 0.589362, 0.460609, 0.19656, 0.713726, 0.623529, 0.482353, 0 )
 
 [sub_resource type="GradientTexture" id=3]
 gradient = SubResource( 2 )
@@ -218,6 +218,7 @@ enabled_focus_mode = 0
 text = "[R]estart"
 
 [node name="TransitionFade" type="TextureRect" parent="UI"]
+visible = false
 margin_left = -3.0
 margin_top = -4.0
 margin_right = 643.0
@@ -310,4 +311,6 @@ color = Color( 0.231373, 0.172549, 0.133333, 1 )
 [connection signal="pressed" from="UI/Menu/Contents/Sound/Button" to="UI" method="_on_sound_toggle_pressed"]
 [connection signal="value_changed" from="UI/Menu/Contents/Music/HSlider" to="UI" method="_on_music_changed"]
 [connection signal="pressed" from="UI/Menu/Contents/Music/Button" to="UI" method="_on_music_toggle_pressed"]
+[connection signal="pressed" from="UI/Menu/Contents/ParticleTogle" to="." method="_on_particle_toggled"]
+[connection signal="pressed" from="UI/Menu/Contents/Restart" to="UI" method="_on_Restart_level_pressed"]
 [connection signal="pressed" from="UI/Victory/Restart" to="." method="restart_game"]

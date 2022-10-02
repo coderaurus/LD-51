@@ -18,10 +18,11 @@ export var level_list := []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	level = 0
-	print("Ready...")
+#	print("Ready...")
 	_load_level()
 #	level = 4
 	$UI/Timer.text = "%.4f" % 10.0
+	MusicManager.song("main")
 	
 	pass # Replace with function body.
 
@@ -115,25 +116,27 @@ func play_landing(pos):
 
 func _game_completed():
 	_game_complete = true
+	MusicManager.stop()
 	$UI.show_transition(true)
-	yield(get_tree().create_timer(1.0), "timeout")
+	yield(get_tree().create_timer(2.0), "timeout")
 	$UI.show_victory()
+	MusicManager.song("end")
 	
 
 func game_over():
-	print("GAME OVER")
+#	print("GAME OVER")
 	SoundManager.sound("death")
 	_load_level()
 
 
 func _on_Countdown_timeout():
-	print("Countdown timeout at %s" % $Countdown.time_left)
+#	print("Countdown timeout at %s" % $Countdown.time_left)
 	if $Countdown.time_left == 0 and !level_completed or !_game_complete:
 		game_over()
 
 
 func restart_game():
-	$UI/Victory/Restart.focus_mode =Control.FOCUS_NONE
+	SoundManager.sound("click")
 	get_tree().paused = true
 	
 	level_completed = false
@@ -146,4 +149,16 @@ func restart_game():
 	
 	
 	$UI.restart()
+	MusicManager.song("main")
 	
+
+
+func _on_particle_toggled():
+	_particles_on = !_particles_on
+	$Dust.emitting = _particles_on
+	$BlackParticles.emitting = _particles_on
+	if _particles_on:
+		$UI/Menu/Contents/ParticleTogle.text = "Particles"
+	else:
+		$UI/Menu/Contents/ParticleTogle.text = "No Prtcls"
+		

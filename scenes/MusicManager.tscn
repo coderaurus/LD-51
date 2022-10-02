@@ -1,7 +1,13 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/MusicManager.gd" type="Script" id=1]
+[ext_resource path="res://ost/the_end.ogg" type="AudioStream" id=2]
+[ext_resource path="res://ost/against_odds.ogg" type="AudioStream" id=3]
 
 [node name="MusicManager" type="AudioStreamPlayer"]
 pause_mode = 2
 script = ExtResource( 1 )
+ost = {
+"end": ExtResource( 2 ),
+"main": ExtResource( 3 )
+}
