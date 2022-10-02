@@ -23,12 +23,12 @@ func _physics_process(delta):
 			var distance = player.global_position.distance_to(global_position)
 			print(distance)
 			if distance <= 4:
-				player._velocity += velocity * 0.25
+#				player._velocity += velocity * 0.1
 				player._grounded = false
 			else: 
 				player._on_timeless_block = false
 				player = null
-		force_update_transform()
+#		force_update_transform()
 
 func _on_body_entered(body):
 	if body.is_in_group("player") and !_falling:

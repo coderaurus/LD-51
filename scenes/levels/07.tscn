@@ -1,0 +1,187 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/TimelessBlock.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/TimeUp.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Goal.tscn" type="PackedScene" id=4]
+[ext_resource path="res://tileset/tileset.tres" type="TileSet" id=5]
+
+[node name="Level" type="Node2D"]
+pause_mode = 1
+
+[node name="Map" type="Node2D" parent="."]
+
+[node name="Background" type="TileMap" parent="Map"]
+modulate = Color( 0.823529, 0.823529, 0.823529, 1 )
+tile_set = ExtResource( 5 )
+cell_size = Vector2( 16, 16 )
+cell_quadrant_size = 4
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+show_collision = true
+format = 1
+tile_data = PoolIntArray( 15, 7, 0, 16, 7, 0, 65550, 7, 0, 65551, 7, 0, 65552, 7, 0, 131086, 7, 0, 131088, 7, 0, 196622, 7, 0, 196624, 7, 0, 262157, 7, 0, 262158, 7, 0, 262159, 7, 0, 262160, 7, 0, 327693, 7, 0, 327694, 7, 0, 327695, 7, 0, 393229, 7, 0, 393230, 7, 0, 393231, 7, 0, 458764, 7, 0, 458765, 7, 0, 458766, 7, 0, 458767, 7, 0, 458768, 7, 0, 524300, 7, 0, 524301, 7, 0, 524302, 7, 0, 524303, 7, 0, 524304, 7, 0, 655372, 7, 0, 655373, 7, 0, 655374, 7, 0, 655375, 7, 0, 720909, 7, 0, 720910, 7, 0, 720911, 7, 0, 786445, 7, 0, 786446, 7, 0, 786447, 7, 0, 851981, 7, 0, 851982, 7, 0, 851983, 7, 0, 851984, 7, 0, 852004, 7, 0, 852005, 7, 0, 852006, 7, 0, 852007, 7, 0, 917516, 7, 0, 917517, 7, 0, 917518, 7, 0, 917519, 7, 0, 917520, 7, 0, 917540, 7, 0, 917541, 7, 0, 917542, 7, 0, 917543, 7, 0, 983052, 7, 0, 983053, 7, 0, 983054, 7, 0, 983055, 7, 0, 983056, 7, 0, 983078, 7, 0, 983079, 7, 0, 1048588, 7, 0, 1048589, 7, 0, 1048590, 7, 0, 1048591, 7, 0, 1048592, 7, 0, 1048614, 7, 0, 1048615, 7, 0, 1114125, 7, 0, 1114126, 7, 0, 1114127, 7, 0, 1114128, 7, 0, 1179660, 7, 0, 1179661, 7, 0, 1179662, 7, 0, 1179663, 7, 0, 1179664, 7, 0, 1245196, 7, 0, 1245197, 7, 0, 1245198, 7, 0, 1245199, 7, 0, 1245200, 7, 0 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Ground" type="TileMap" parent="Map" groups=["map"]]
+tile_set = ExtResource( 5 )
+cell_size = Vector2( 16, 16 )
+cell_quadrant_size = 4
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 524302, 3, 0, 524303, 3, 0, 524304, 3, 0, 589836, 3, 0, 589837, 3, 0, 589838, 5, 0, 589839, 5, 0, 589840, 3, 0, 589864, 3, 0, 655372, 3, 0, 655373, 3, 0, 655374, 3, 0, 655375, 3, 0, 655376, 3, 0, 655400, 3, 0, 720932, 3, 0, 720933, 3, 0, 720934, 3, 0, 720935, 3, 0, 720936, 3, 0, 786467, 3, 0, 786468, 5, 0, 786469, 5, 0, 786470, 5, 0, 786471, 5, 0, 852003, 3, 0, 852004, 3, 0, 852005, 3, 0, 852006, 3, 0, 852007, 3, 0, 917516, 3, 0, 917517, 3, 0, 917518, 3, 0, 917519, 3, 0, 917520, 3, 0, 983052, 3, 0, 983053, 3, 0, 983054, 3, 0, 983055, 3, 0, 983056, 3, 0, 1048588, 3, 0, 1048589, 3, 0, 1114145, 3, 0, 1114146, 3, 0, 1114147, 3, 0, 1114148, 3, 0, 1114149, 3, 0, 1114150, 3, 0, 1114151, 3, 0, 1179660, 3, 0, 1179661, 3, 0, 1179662, 3, 0, 1179663, 3, 0, 1179664, 3, 0, 1179682, 3, 0, 1179683, 5, 0, 1179684, 5, 0, 1179685, 5, 0, 1179686, 5, 0, 1179687, 3, 0, 1245196, 3, 0, 1245197, 5, 0, 1245198, 5, 0, 1245199, 5, 0, 1245200, 3, 0, 1245219, 3, 0, 1245220, 5, 0, 1245221, 5, 0, 1245222, 5, 0, 1245223, 3, 0 )
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="Goal" parent="Objects" instance=ExtResource( 4 )]
+position = Vector2( 38, 26 )
+
+[node name="PlayerSpawn" type="Node2D" parent="Objects"]
+position = Vector2( 613, 252 )
+
+[node name="TimelessBlock" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 504, 280 )
+
+[node name="TimelessBlock2" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 520, 280 )
+
+[node name="TimelessBlock3" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 430, 280 )
+
+[node name="TimelessBlock4" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 446, 280 )
+
+[node name="TimelessBlock5" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 353, 264 )
+
+[node name="TimelessBlock6" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 371, 266 )
+
+[node name="TimelessBlock7" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 280, 247 )
+
+[node name="TimelessBlock8" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 296, 247 )
+
+[node name="TimelessBlock9" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 168, 264 )
+
+[node name="TimelessBlock10" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 184, 264 )
+
+[node name="TimelessBlock11" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 113, 264 )
+
+[node name="TimelessBlock12" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 64, 244 )
+
+[node name="TimelessBlock13" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 15, 214 )
+
+[node name="TimelessBlock14" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 65, 190 )
+
+[node name="TimelessBlock15" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 85, 191 )
+
+[node name="TimelessBlock16" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 97, 157 )
+
+[node name="TimelessBlock17" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 184, 152 )
+
+[node name="TimelessBlock18" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 168, 152 )
+
+[node name="TimelessBlock19" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 332, 138 )
+
+[node name="TimelessBlock20" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 412, 166 )
+
+[node name="TimelessBlock21" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 455, 162 )
+
+[node name="TimelessBlock22" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 502, 156 )
+
+[node name="TimelessBlock23" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 632, 168 )
+
+[node name="TimelessBlock24" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 616, 129 )
+
+[node name="TimelessBlock25" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 598, 90 )
+
+[node name="TimelessBlock26" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 544, 95 )
+
+[node name="TimelessBlock27" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 476, 79 )
+
+[node name="TimelessBlock29" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 400, 63 )
+
+[node name="TimelessBlock30" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 332, 63 )
+
+[node name="TimelessBlock31" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 281, 40 )
+
+[node name="TimelessBlock32" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 248, 72 )
+
+[node name="TimelessBlock33" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 232, 72 )
+
+[node name="TimelessBlock34" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 216, 65 )
+
+[node name="TimelessBlock35" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 133, 72 )
+
+[node name="TimelessBlock37" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 57, 72 )
+
+[node name="TimelessBlock38" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 37, 66 )
+
+[node name="TimelessBlock39" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 17, 72 )
+
+[node name="TimeUp" parent="Objects" instance=ExtResource( 2 )]
+position = Vector2( 250, 103 )
+
+[node name="TimeUp10" parent="Objects" instance=ExtResource( 2 )]
+position = Vector2( 453, 124 )
+
+[node name="TimeUp11" parent="Objects" instance=ExtResource( 2 )]
+position = Vector2( 133, 43 )
+
+[node name="TimeUp2" parent="Objects" instance=ExtResource( 2 )]
+position = Vector2( 241, 199 )
+
+[node name="TimeUp3" parent="Objects" instance=ExtResource( 2 )]
+position = Vector2( 231, 34 )
+
+[node name="TimeUp12" parent="Objects" instance=ExtResource( 2 )]
+position = Vector2( 261, 17 )
+
+[node name="TimeUp4" parent="Objects" instance=ExtResource( 2 )]
+position = Vector2( 16, 162 )
+
+[node name="TimeUp5" parent="Objects" instance=ExtResource( 2 )]
+position = Vector2( 588, 149 )
+
+[node name="TimeUp6" parent="Objects" instance=ExtResource( 2 )]
+position = Vector2( 475, 44 )
+
+[node name="TimeUp7" parent="Objects" instance=ExtResource( 2 )]
+position = Vector2( 437, 245 )
+
+[node name="TimeUp8" parent="Objects" instance=ExtResource( 2 )]
+position = Vector2( 167, 220 )
+
+[node name="TimeUp9" parent="Objects" instance=ExtResource( 2 )]
+position = Vector2( 208, 110 )

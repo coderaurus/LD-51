@@ -74,7 +74,7 @@ func _handle_states():
 		if (_can_jump and _grounded) or _can_jump:
 			var jump_mod = 1.0
 			if _on_timeless_block:
-				jump_mod = 1.5
+				jump_mod = 1.0
 				_on_timeless_block = false
 				
 			_jumped = true
@@ -147,7 +147,8 @@ func reset():
 	$Sprite.flip_h = false
 
 func _off_screen():
-	get_tree().current_scene.game_over()
+	if global_position.y > 0:
+		get_tree().current_scene.game_over()
 	
 
 func _play_animation(anim_name, ignore_anim = ""):
