@@ -132,6 +132,8 @@ func reset():
 	_jumping = false
 	_jumped = false
 	_grounded = false
+	
+	$Sprite.flip_h = false
 
 func _off_screen():
 	get_tree().current_scene.game_over()

@@ -6,8 +6,10 @@ extends Node2D
 # var b = "text"
 var level_started = false
 var level_completed = false
-var level = 0
+var level
 var current_level : Node2D
+var _game_complete = false
+var _particles_on = true
 
 var landing_particle = preload("res://scenes/particles/LandingParticle.tscn")
 
@@ -27,7 +29,7 @@ func _process(delta):
 	if !get_tree().paused:
 		$UI/Timer.text = "%.4f" % $Countdown.time_left
 		
-	if Input.is_action_just_pressed("restart"):
+	if !_game_complete and Input.is_action_just_pressed("restart"):
 		_load_level()
 
 
@@ -55,43 +57,80 @@ func level_complete():
 		level += 1
 		_load_level()
 	else:
+		_game_completed()
 		print("Game done!")
 
 func _load_level():
 	get_tree().paused = true
+	var next_level = (level_list[level] as PackedScene).instance()
+	
+	var win_fade = level_completed
+	$UI.show_transition(win_fade)
+	yield(get_tree().create_timer(0.5), "timeout")
+	$Player.global_position = Vector2.LEFT * -500
+	
 	level_started = false
 	level_completed = false
 	
-	if level > 0:
-		call_deferred("remove_child", current_level)
+	if current_level != null:
 		var last_level = current_level
+		call_deferred("remove_child", current_level)
+		last_level.visible = false
 		current_level = null
 		last_level.call_deferred("queue_free")
-	
-	var next_level = (level_list[level] as PackedScene).instance()
+	else:
+		current_level = next_level
+
 	
 	call_deferred("add_child_below_node", $Countdown, next_level)
 	current_level = next_level
 	
 	$Player.position = current_level.get_node("Objects/PlayerSpawn").position
 	$Player.reset()
+	
 	$Countdown.start(10.0)
 	$Countdown.stop()
+	$UI/Timer.text = "%.4f" % $Countdown.time_left
+	
+	$UI.hide_transition(win_fade)
+	yield(get_tree().create_timer(0.5), "timeout")
 
 func play_landing(pos):
-	print("landing")
-	var p = landing_particle.instance()
-	add_child(p)
-	p.owner = self
+	if !_particles_on:
+		return
+	
+	var p : CPUParticles2D = landing_particle.instance()
+	$Particles.add_child(p)
+	p.owner = $Particles
 	p.global_position = pos
 	p.emitting = true
+	yield(get_tree().create_timer(0.55), "timeout")
+	p.queue_free()
 
+func _game_completed():
+	_game_complete = true
+	$UI.show_transition(true)
+	yield(get_tree().create_timer(0.5), "timeout")
+	$UI.show_victory()
+	
 
 func game_over():
-	print("GAME OVER")
+#	print("GAME OVER")
 	_load_level()
 
 
 func _on_Countdown_timeout():
 	_load_level()
-	print("Countdown timeout at %s" % $Countdown.time_left)
+#	print("Countdown timeout at %s" % $Countdown.time_left)
+
+
+func restart_game():
+	get_tree().paused = true
+	
+	level_completed = false
+	level_started = false
+	_game_complete = false
+	level = 0
+	
+	$UI.restart()
+	

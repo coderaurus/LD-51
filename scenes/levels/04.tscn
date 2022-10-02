@@ -37,11 +37,11 @@ position = Vector2( 583, 91 )
 [node name="PlayerSpawn" type="Node2D" parent="Objects"]
 position = Vector2( 23, 246 )
 
-[node name="TimeUp" parent="Objects" instance=ExtResource( 1 )]
-position = Vector2( 423, 73 )
+[node name="TimeUp" parent="." instance=ExtResource( 1 )]
+position = Vector2( 422, 72 )
 
-[node name="TimeUp2" parent="Objects" instance=ExtResource( 1 )]
-position = Vector2( 288, 48 )
+[node name="TimeUp2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 282, 47 )
 
-[node name="TimeUp3" parent="Objects" instance=ExtResource( 1 )]
-position = Vector2( 455, 198 )
+[node name="TimeUp3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 456, 193 )

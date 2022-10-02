@@ -36,8 +36,69 @@ func show_menu():
 	tween.chain().tween_property($Menu/Header, "rect_position", Vector2(2, 4), 0.5)
 	tween.tween_property($Menu/Contents, "modulate", Color.white, 0.5).set_delay(0.2)
 	tween.chain().tween_property(self, "menu_visible", true, 0)
+
+
+func show_transition(win = false):
+	var tween = create_tween()
+	if !win:
+		tween.tween_property($TransitionFade, "visible", true, 0)
+		tween.tween_property($TransitionFade, "modulate", Color.white, 0.4)
+	else:
+		tween.tween_property($VictoryFade, "visible", true, 0)
+		tween.tween_property($VictoryFade, "modulate", Color.white, 0.4)
+
+func hide_transition(win = false):
+	var tween = create_tween()
+	if !win:
+		tween.tween_property($TransitionFade, "modulate", Color.transparent, 0.8)
+		tween.tween_property($TransitionFade, "visible", false, 0)
+	else:
+		tween.tween_property($VictoryFade, "modulate", Color.transparent, 0.8)
+		tween.tween_property($VictoryFade, "visible", false, 0)
 		
 
+func show_victory():
+	var p1 = get_parent().get_node("Dust")
+	var p2 = get_parent().get_node("BlackParticles")
+	
+	if get_parent()._particles_on:
+		p1.emitting = false
+		p2.emitting = false
+		
+	$Victory.visible = true
+	var tween = create_tween()
+	tween.tween_property($Victory/TextureRect, "modulate", Color.white, 0.75)
+	tween.tween_property($Victory/Text/Label, "modulate", Color.white, 0.5)
+	tween.tween_property($Victory/Text/Label2, "modulate", Color.white, 0.5).set_delay(0.5)
+	tween.tween_property($Victory/Text/Label3, "modulate", Color.white, 0.5).set_delay(1.0)
+	tween.tween_property($Victory/Restart, "modulate", Color.white, 0.75)
+	
 
 func _on_start_pressed():
 	hide_menu()
+
+
+func restart():
+	var tween = create_tween().set_parallel()
+	tween.tween_property($VictoryFade, "modulate", Color.transparent, 0)
+	tween.tween_property($VictoryFade, "visible", false, 0)
+	
+	tween.tween_property($TransitionFade, "modulate", Color.white, 0)
+	tween.tween_property($TransitionFade, "visible", true, 0)
+	
+	tween.tween_property($Victory/Text/Label, "modulate", Color.transparent, 0.5)
+	tween.tween_property($Victory/Text/Label2, "modulate", Color.transparent, 0.5)
+	tween.tween_property($Victory/Text/Label3, "modulate", Color.transparent, 0.5)
+	tween.tween_property($Victory/Restart, "modulate", Color.transparent, 0.5)
+	tween.chain().tween_property($Victory/TextureRect, "modulate", Color.transparent, 0.75)
+	tween.chain().tween_callback(get_parent(), "_load_level")
+	
+	
+	var p1 = get_parent().get_node("Dust")
+	var p2 = get_parent().get_node("BlackParticles")
+	
+	if get_parent()._particles_on:
+		p1.emitting = true
+		p2.emitting = true
+		
+	
