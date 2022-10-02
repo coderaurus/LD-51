@@ -32,7 +32,7 @@ func _physics_process(delta):
 	
 	get_input()
 	
-	if !get_tree().paused:
+	if !get_tree().paused and get_parent().level_started and !get_parent().level_completed:
 		var last_pos = position
 		_add_velocity(delta)
 		# For debugging kinematic + kinematic collision between player and falling block
@@ -61,6 +61,7 @@ func _handle_states():
 		if !_grounded:
 			$Coyote.stop()
 			_play_animation("Land")
+			SoundManager.sound("land")
 			get_parent().play_landing(global_position + Vector2.DOWN * 7)
 #			print("Landed %s" % _velocity)
 		_grounded = true
@@ -73,6 +74,7 @@ func _handle_states():
 			_can_jump = false
 			_velocity.y -= _jump_force
 			_play_animation("Jump")
+			SoundManager.sound("jump")
 
 
 func _add_velocity(delta):

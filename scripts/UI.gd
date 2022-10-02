@@ -8,12 +8,45 @@ var menu_visible = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_init_menu()
+	
 	pass # Replace with function body.
 
 
 func _process(delta):
 	if Input.is_action_just_pressed("ui_cancel"):
 		_toggle_menu()
+
+
+func _init_menu():
+	$Menu/Contents/Sound/HSlider.max_value = SoundManager.MAX_DB
+	$Menu/Contents/Sound/HSlider.min_value = SoundManager.MUTE_DB
+	
+	$Menu/Contents/Music/HSlider.max_value = MusicManager.MAX_DB
+	$Menu/Contents/Music/HSlider.min_value = MusicManager.MUTE_DB
+
+
+func _toggle_sound():
+	var slider = $Menu/Contents/Sound/HSlider
+	if slider.value == SoundManager.stored_db or (slider.value <= SoundManager.MAX_DB and slider.value > SoundManager.MUTE_DB):
+		SoundManager.stored_db = slider.value
+		slider.value = SoundManager.MUTE_DB
+		$Menu/Contents/Sound/Button.text = "No Snd"
+	else:
+		slider.value = SoundManager.stored_db
+		$Menu/Contents/Sound/Button.text = "Sound"
+
+func _toggle_music():
+	var slider = $Menu/Contents/Music/HSlider
+	if slider.value == MusicManager.stored_db or (slider.value <= MusicManager.MAX_DB and slider.value > MusicManager.MUTE_DB):
+		MusicManager.stored_db = slider.value
+		slider.value = MusicManager.MUTE_DB
+		$Menu/Contents/Music/Button.text = "No Msc"
+	else:
+		slider.value = MusicManager.stored_db
+		$Menu/Contents/Music/Button.text = "Music"
+		
+
 
 
 func _toggle_menu():
@@ -102,3 +135,21 @@ func restart():
 		p2.emitting = true
 		
 	
+
+
+func _on_sound_changed(value):
+	SoundManager._on_range_changed(value)
+	pass # Replace with function body.
+
+
+func _on_music_changed(value):
+	MusicManager._on_range_change(value)
+	pass # Replace with function body.
+
+
+func _on_music_toggle_pressed():
+	_toggle_music()
+
+
+func _on_sound_toggle_pressed():
+	_toggle_sound()

@@ -8,5 +8,10 @@ func _ready():
 
 
 func _on_body_entered(body):
-	if !get_tree().current_scene.level_completed:
+	var game_state_ok = !get_tree().current_scene.level_completed and get_tree().current_scene.level_started
+	var is_player = body.is_in_group("player")
+	
+	if game_state_ok and is_player:
+		print("Goal %s reached!" % self)
+		monitoring = false
 		get_tree().current_scene.level_complete()

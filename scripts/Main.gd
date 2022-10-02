@@ -19,6 +19,7 @@ export var level_list := []
 func _ready():
 	level = 0
 	_load_level()
+	level = 4
 	$UI/Timer.text = "%.4f" % 10.0
 	
 	pass # Replace with function body.
@@ -35,6 +36,7 @@ func _process(delta):
 
 func time_up():
 	$Countdown.start(clamp($Countdown.time_left + 1.0, 0, 10.0))
+	SoundManager.sound("pickup")
 
 
 func pause_flow(pause = true):
@@ -54,6 +56,7 @@ func level_complete():
 #	get_tree().reload_current_scene()
 	
 	if level+1 < level_list.size():
+		SoundManager.sound("level_clear")
 		level += 1
 		_load_level()
 	else:
@@ -110,18 +113,20 @@ func play_landing(pos):
 func _game_completed():
 	_game_complete = true
 	$UI.show_transition(true)
-	yield(get_tree().create_timer(0.5), "timeout")
+	yield(get_tree().create_timer(1.0), "timeout")
 	$UI.show_victory()
 	
 
 func game_over():
 #	print("GAME OVER")
+	SoundManager.sound("death")
 	_load_level()
 
 
 func _on_Countdown_timeout():
-	_load_level()
-#	print("Countdown timeout at %s" % $Countdown.time_left)
+	print("Countdown timeout at %s" % $Countdown.time_left)
+	if $Countdown.time_left == 0:
+		game_over()
 
 
 func restart_game():
@@ -131,6 +136,10 @@ func restart_game():
 	level_started = false
 	_game_complete = false
 	level = 0
+	
+	$Countdown.start(10)
+	$Countdown.stop()
+	
 	
 	$UI.restart()
 	

@@ -154,6 +154,10 @@ margin_top = 2.0
 margin_right = 50.0
 margin_bottom = 18.0
 theme = ExtResource( 9 )
+min_value = -80.0
+max_value = 80.0
+step = 2.0
+value = -20.0
 
 [node name="Button" type="Button" parent="UI/Menu/Contents/Sound"]
 margin_left = -45.0
@@ -176,6 +180,10 @@ margin_top = 2.0
 margin_right = 50.0
 margin_bottom = 18.0
 theme = ExtResource( 9 )
+min_value = -80.0
+max_value = 80.0
+step = 2.0
+value = -20.0
 
 [node name="Button" type="Button" parent="UI/Menu/Contents/Music"]
 margin_left = -45.0
@@ -286,4 +294,8 @@ color = Color( 0.231373, 0.172549, 0.133333, 1 )
 
 [connection signal="timeout" from="Countdown" to="." method="_on_Countdown_timeout"]
 [connection signal="pressed" from="UI/Menu/Contents/Play" to="UI" method="_on_start_pressed"]
+[connection signal="value_changed" from="UI/Menu/Contents/Sound/HSlider" to="UI" method="_on_sound_changed"]
+[connection signal="pressed" from="UI/Menu/Contents/Sound/Button" to="UI" method="_on_sound_toggle_pressed"]
+[connection signal="value_changed" from="UI/Menu/Contents/Music/HSlider" to="UI" method="_on_music_changed"]
+[connection signal="pressed" from="UI/Menu/Contents/Music/Button" to="UI" method="_on_music_toggle_pressed"]
 [connection signal="pressed" from="UI/Victory/Restart" to="." method="restart_game"]
