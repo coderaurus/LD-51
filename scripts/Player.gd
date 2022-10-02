@@ -15,6 +15,7 @@ var _can_jump = true
 var _jumped = false
 var _jumping = false
 var _grounded = false
+var _on_timeless_block = false
 
 var _direction = Vector2.ZERO
 var _velocity  = Vector2.ZERO
@@ -35,6 +36,7 @@ func _physics_process(delta):
 	if !get_tree().paused and get_parent().level_started and !get_parent().level_completed:
 		var last_pos = position
 		_add_velocity(delta)
+#		force_update_transform()
 		# For debugging kinematic + kinematic collision between player and falling block
 	#	if abs(_velocity.y) > 1000: 
 	#		print("Pos %s | last %s " % [position, last_pos])
@@ -70,9 +72,15 @@ func _handle_states():
 	
 	if _jumping:
 		if (_can_jump and _grounded) or _can_jump:
+			var jump_mod = 1.0
+			if _on_timeless_block:
+				jump_mod = 1.5
+				_on_timeless_block = false
+				
 			_jumped = true
 			_can_jump = false
-			_velocity.y -= _jump_force
+			_velocity.y -= _jump_force * jump_mod
+			
 			_play_animation("Jump")
 			SoundManager.sound("jump")
 
@@ -104,7 +112,7 @@ func get_input():
 			_velocity.x = 0
 			_play_animation("Idle", "Land")
 	
-	if _velocity.x == 0 and _velocity.y == 0 and !_jumping:
+	if _velocity.x == 0 and _velocity.y == 0 and !_jumping and !_on_timeless_block:
 #		print("Paaause")
 		get_parent().pause_flow()
 	else:
@@ -133,6 +141,7 @@ func reset():
 	_can_jump = true
 	_jumping = false
 	_jumped = false
+	_on_timeless_block = false
 	_grounded = false
 	
 	$Sprite.flip_h = false

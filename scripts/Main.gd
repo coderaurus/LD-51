@@ -21,7 +21,7 @@ func _ready():
 #	print("Ready...")
 	_load_level()
 #	level = 4
-	$UI/Timer.text = "%.4f" % 10.0
+	
 	MusicManager.song("main")
 	
 	pass # Replace with function body.
@@ -97,7 +97,7 @@ func _load_level():
 	
 	$Countdown.start(10.0)
 	$Countdown.stop()
-	$UI/Timer.text = "%.4f" % $Countdown.time_left
+	$UI/Timer.text = "%.4f" % 10.0
 	
 	$UI.hide_transition(win_fade)
 	yield(get_tree().create_timer(0.5), "timeout")
