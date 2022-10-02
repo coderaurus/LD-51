@@ -22,22 +22,32 @@ var _velocity  = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_play_animation("Fall")
 	pass # Replace with function body.
 
+
 func _physics_process(delta):
+	if !get_parent().level_started:
+		_play_animation("Fall")
+	
 	get_input()
 	
-	var last_pos = position
-	_velocity.y = clamp(_velocity.y + _gravity * delta, -400, 400)
-	_velocity = move_and_slide(_velocity, Vector2.UP)
+	if !get_tree().paused:
+		var last_pos = position
+		_add_velocity(delta)
+		# For debugging kinematic + kinematic collision between player and falling block
+	#	if abs(_velocity.y) > 1000: 
+	#		print("Pos %s | last %s " % [position, last_pos])
+		_handle_states()
 	
-	# For debugging kinematic + kinematic collision between player and falling block
-#	if abs(_velocity.y) > 1000: 
-#		print("Pos %s | last %s " % [position, last_pos])
-	
-	if get_slide_count() == 0:
+
+func _handle_states():
+#	print("Sliding %s" % get_slide_count())
+	if get_slide_count() == 0 or (get_slide_count() > 0 and is_on_wall() and !is_on_floor()):
+		
 #			print("Not paused (velo y %s | pos %s)" % [_velocity.y, global_position])
 		_grounded = false
+		_play_animation("Fall")
 		
 		if _velocity.y > 0 and _jumping:
 			_jumped = false
@@ -47,19 +57,27 @@ func _physics_process(delta):
 #			print("Starting")
 			$Coyote.start()
 	elif is_on_floor():
+#		print("Flooring")
 		if !_grounded:
 			$Coyote.stop()
-#			print("Landed")
+			_play_animation("Land")
+			get_parent().play_landing(global_position + Vector2.DOWN * 7)
+#			print("Landed %s" % _velocity)
 		_grounded = true
 		_can_jump = true
 		_velocity.y = 0
-	
 	
 	if _jumping:
 		if (_can_jump and _grounded) or _can_jump:
 			_jumped = true
 			_can_jump = false
 			_velocity.y -= _jump_force
+			_play_animation("Jump")
+
+
+func _add_velocity(delta):
+	_velocity.y = clamp(_velocity.y + _gravity * delta, -400, 400)
+	_velocity = move_and_slide(_velocity, Vector2.UP)
 
 
 func get_input():
@@ -76,10 +94,13 @@ func get_input():
 	
 	if _direction.x != 0:
 		_velocity.x = lerp(_velocity.x, _direction.x, accel)
+		if _grounded and !_jumping:
+			_play_animation("Run")
 	else:
 		_velocity.x = lerp(_velocity.x, 0, friction)
 		if _velocity.x < 2.0:
 			_velocity.x = 0
+			_play_animation("Idle", "Land")
 	
 	if _velocity.x == 0 and _velocity.y == 0 and !_jumping:
 #		print("Paaause")
@@ -114,3 +135,12 @@ func reset():
 
 func _off_screen():
 	get_tree().current_scene.game_over()
+	
+
+func _play_animation(anim_name, ignore_anim = ""):
+	if ignore_anim != "" and $Player.current_animation == ignore_anim:
+		return
+	
+	if $Player.has_animation(anim_name):
+		$Player.advance(0)
+		$Player.play(anim_name)

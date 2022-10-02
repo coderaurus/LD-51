@@ -18,5 +18,5 @@ func _ready():
 
 func _on_body_entered(body):
 	if body.is_in_group("player"):
-		get_tree().current_scene.time_up()		
+		get_tree().current_scene.time_up()
 		queue_free()

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="Curve" id=6]
+max_value = 2.0
+_data = [ Vector2( 0, 2 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.131818 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=7]
+colors = PoolColorArray( 0.564706, 0.545098, 0.498039, 0.823529, 0.580392, 0.560784, 0.513726, 0.392157 )
+
+[node name="LandingParticle" type="CPUParticles2D"]
+emitting = false
+amount = 6
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector2( 0, -1 )
+spread = 120.0
+gravity = Vector2( 0, 55 )
+initial_velocity = 30.0
+scale_amount_curve = SubResource( 6 )
+color_ramp = SubResource( 7 )

@@ -9,10 +9,13 @@ var level_completed = false
 var level = 0
 var current_level : Node2D
 
+var landing_particle = preload("res://scenes/particles/LandingParticle.tscn")
+
 export var level_list := []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	level = 0
 	_load_level()
 	$UI/Timer.text = "%.4f" % 10.0
 	
@@ -23,6 +26,9 @@ func _ready():
 func _process(delta):
 	if !get_tree().paused:
 		$UI/Timer.text = "%.4f" % $Countdown.time_left
+		
+	if Input.is_action_just_pressed("restart"):
+		_load_level()
 
 
 func time_up():
@@ -30,8 +36,8 @@ func time_up():
 
 
 func pause_flow(pause = true):
-	if get_tree().paused != pause:
-		print("Pausing flow %s" % pause)
+#	if get_tree().paused != pause:
+#		print("Pausing flow %s" % pause)
 	if !pause and !level_started:
 		_start_level()
 	
@@ -71,6 +77,15 @@ func _load_level():
 	$Player.reset()
 	$Countdown.start(10.0)
 	$Countdown.stop()
+
+func play_landing(pos):
+	print("landing")
+	var p = landing_particle.instance()
+	add_child(p)
+	p.owner = self
+	p.global_position = pos
+	p.emitting = true
+
 
 func game_over():
 	print("GAME OVER")

@@ -42,8 +42,17 @@ position = Vector2( 61, 157 )
 [node name="TimeUp" parent="Objects" instance=ExtResource( 1 )]
 position = Vector2( 590, 63 )
 
+[node name="TimeUp2" parent="Objects" instance=ExtResource( 1 )]
+position = Vector2( 260, 138 )
+
 [node name="TimelessBlock" parent="Objects" instance=ExtResource( 2 )]
 position = Vector2( 248, 216 )
+
+[node name="TimelessBlock16" parent="Objects" instance=ExtResource( 2 )]
+position = Vector2( 120, 169 )
+
+[node name="TimelessBlock17" parent="Objects" instance=ExtResource( 2 )]
+position = Vector2( 168, 138 )
 
 [node name="TimelessBlock2" parent="Objects" instance=ExtResource( 2 )]
 position = Vector2( 296, 216 )

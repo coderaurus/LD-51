@@ -1,0 +1,69 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://gfx/player.png" type="Texture" id=2]
+[ext_resource path="res://animations/player/Idle.tres" type="Animation" id=3]
+[ext_resource path="res://animations/player/Run.tres" type="Animation" id=4]
+[ext_resource path="res://animations/player/Fall.tres" type="Animation" id=5]
+[ext_resource path="res://animations/player/Jump.tres" type="Animation" id=6]
+[ext_resource path="res://animations/player/Land.tres" type="Animation" id=7]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7, 7.5 )
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 2 ]
+}
+
+[node name="Player" type="KinematicBody2D" groups=["player"]]
+pause_mode = 2
+position = Vector2( 27, 224 )
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+hframes = 8
+frame = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 0, 0.5 )
+shape = SubResource( 1 )
+
+[node name="Coyote" type="Timer" parent="."]
+one_shot = true
+
+[node name="Feet" type="RayCast2D" parent="."]
+visible = false
+enabled = true
+cast_to = Vector2( 0, 8.5 )
+
+[node name="Debug" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+visible = false
+
+[node name="Player" type="AnimationPlayer" parent="."]
+anims/Fall = ExtResource( 5 )
+anims/Idle = ExtResource( 3 )
+anims/Jump = ExtResource( 6 )
+anims/Land = ExtResource( 7 )
+anims/RESET = SubResource( 2 )
+anims/Run = ExtResource( 4 )
+
+[connection signal="timeout" from="Coyote" to="." method="_on_Coyote_timeout"]
+[connection signal="timeout" from="Debug" to="." method="_on_Debug_timeout"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_off_screen"]
